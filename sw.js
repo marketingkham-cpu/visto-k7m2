@@ -1,6 +1,6 @@
 // Guarda una copia de la app para que abra aunque no haya señal.
 // Siempre intenta traer la versión nueva primero; si no hay internet, usa la copia.
-const CACHE = 'visto-v1';
+const CACHE = 'visto-v2';
 const BASE = ['./', 'index.html', 'manifest.webmanifest', 'tex/papel-azul.jpg', 'tex/papel-blanco.jpg', 'icons/icon-192.png', 'icons/apple-touch-icon.png'];
 self.addEventListener('install', e => {
   e.waitUntil(caches.open(CACHE).then(c => c.addAll(BASE)).then(() => self.skipWaiting()));

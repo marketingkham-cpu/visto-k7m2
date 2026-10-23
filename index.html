@@ -56,6 +56,8 @@ section{display:flex;flex-direction:column;gap:10px}
 .summary div{background:#1F2F3C;color:#fff;border-radius:14px;padding:12px 8px;text-align:center}
 .summary b{display:block;font-size:32px;font-weight:800;line-height:1.1;color:#EEE5A4;font-variant-numeric:tabular-nums}
 .summary span{font-size:12px;font-weight:300;line-height:1.2;display:block;color:#DCE3EF}
+:root[data-theme="dark"] .summary div{background:var(--card)}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]) .summary div{background:var(--card)}}
 .card{background:var(--card);border:1px solid var(--line);border-radius:18px;padding:16px;display:flex;flex-direction:column;gap:11px;min-width:0;box-shadow:0 2px 0 var(--line)}
 .card.due{border-top:5px solid var(--peri)}
 .card.late{border-top-color:var(--butter-dark)}
