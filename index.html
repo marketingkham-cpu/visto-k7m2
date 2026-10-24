@@ -150,7 +150,7 @@ nav.tabs button[aria-current="page"]{color:#fff;background:#7D93C6}
   </header>
   <div class="demo" id="demo" hidden>
     <div id="demoTxt"></div>
-    <div class="seeds"><span>Ver otro ejemplo:</span><button type="button" class="small" data-seed="producto">Pastelería</button><button type="button" class="small" data-seed="taller">Taller</button><button type="button" class="small" data-seed="domicilio">Limpieza a domicilio</button><button type="button" class="small" data-seed="citas">Barbería</button></div>
+    <div class="seeds"><span>Ver otro ejemplo:</span><button type="button" class="small" data-seed="producto">Pastelería</button><button type="button" class="small" data-seed="taller">Taller</button><button type="button" class="small" data-seed="domicilio">Limpieza a domicilio</button><button type="button" class="small" data-seed="citas">Barbería</button><button type="button" class="small" data-seed="online">Clases en línea</button></div>
     <div class="row"><button type="button" class="small" id="btnEmpezar">Empezar con mi negocio</button></div>
   </div>
   <main id="view"></main>
@@ -183,26 +183,31 @@ var GIROS={
   producto:{t:'Hago y entrego productos',ej:'pasteles, ropa, regalos, comida'},
   taller:{t:'Reparo o arreglo cosas',ej:'taller mecánico, celulares, costura'},
   domicilio:{t:'Voy a casa del cliente',ej:'limpieza, plomería, jardinería'},
-  citas:{t:'Atiendo con cita',ej:'barbería, uñas, clases, fotos'}
+  citas:{t:'Atiendo con cita',ej:'barbería, uñas, clases, fotos'},
+  online:{t:'Atiendo en línea',ej:'clases, asesorías, diseño, coaching'}
 };
 /* Ejemplos que salen en gris dentro de cada campo de la ficha */
 var EJ={
   producto:{negocio:'Pastelería Doña Lupe',yo:'Lupe',precio:'los pasteles van desde $450 para 10 personas',datos:'la fecha, cuántas personas y el diseño',incluye:'el pan, el relleno y la decoración',opcion:'el de 10 personas con decoración sencilla sale en $450',ubicacion:'Av. Morelos 214, centro de Cuernavaca',horario:'de lunes a sábado de 9 a 7',entregas:'en Cuernavaca la entrega cuesta $60',pagos:'efectivo o transferencia',anticipo:'el 50%',muestra:'foto de un pastel que entregaste esta semana',devoluciones:'si sale mal lo repongo; si cancelan con menos de 3 días no regreso el anticipo',pedido:'el pastel de 30 personas'},
   taller:{negocio:'Taller Mecánico El Güero',yo:'Toño',precio:'la afinación anda desde $1,200 según el coche',datos:'la marca, el modelo, el año y qué está fallando',incluye:'refacciones, mano de obra y revisión de frenos',opcion:'podemos cambiar solo bujías y filtro por $650, y lo demás lo vemos después',ubicacion:'Calle Galeana 58, Lomas de la Selva',horario:'de lunes a sábado de 8 a 6',pagos:'efectivo, transferencia o tarjeta',anticipo:'lo de las refacciones',muestra:'foto o video corto de un coche que entregaste esta semana',devoluciones:'el trabajo tiene 30 días de garantía; si falla lo mismo, se revisa sin costo',pedido:'la afinación del Tsuru'},
   domicilio:{negocio:'Brillo Limpieza de Salas',yo:'Karla',precio:'la sala de 3 piezas sale en $850',datos:'cuántas piezas son, de qué tela y en qué colonia estás',incluye:'aspirado, lavado profundo y secado rápido',opcion:'lavar solo el sillón grande sale en $450',ubicacion:'Cuernavaca, Jiutepec y Temixco',horario:'de lunes a sábado de 9 a 6',pagos:'efectivo o transferencia',anticipo:'$200',muestra:'fotos de antes y después de una sala que lavaste esta semana',devoluciones:'si queda una mancha que sí se podía quitar, regreso sin costo; si cancelan el mismo día, no regreso el anticipo',pedido:'la limpieza de la sala'},
+  online:{negocio:'Inglés con Dani',yo:'Dani',precio:'la clase de una hora cuesta $350',datos:'para qué lo necesitas, tu nivel y qué días puedes',incluye:'la clase en vivo, el material y la grabación',opcion:'la clase de media hora sale en $200',ubicacion:'Zoom o videollamada de WhatsApp',horario:'de lunes a viernes de 8 a 8',pagos:'transferencia o tarjeta',anticipo:'el pago de la primera clase',muestra:'captura de un comentario o resultado de un alumno (tapa su nombre si no te dio permiso)',devoluciones:'si cancelas con 24 horas la movemos sin costo; si no te conectas, se cuenta como tomada',pedido:'las clases para el examen'},
   citas:{negocio:'Barbería La Esquina',yo:'Iván',precio:'el corte cuesta $180 y con barba $260',datos:'qué estilo quieres y si traes foto de referencia',incluye:'lavado, corte, perfilado y peinado',opcion:'el corte sencillo sin lavado sale en $140',ubicacion:'Av. Plan de Ayala 410, local 3',horario:'de martes a domingo de 10 a 8',pagos:'efectivo, transferencia o tarjeta',anticipo:'$50',muestra:'foto de un corte que hiciste esta semana, parecido a lo que quiere',devoluciones:'si algo no le gustó, regresa esa semana y lo arreglo sin costo; si no llega sin avisar, pierde el anticipo',pedido:'el corte con barba'}
 };
 
+function ejZonas(){return 'Cuernavaca, Jiutepec y Temixco'}
 function seed(g){
   g=GIROS[g]?g:'producto';
   var t=today(), e=EJ[g], f={};
   Object.keys(e).forEach(function(k){if(k!=='pedido')f[k]=e[k]});
-  f.giro=g;f.resena='';f.muestra=cap(e.muestra)+'.';
+  f.giros=[g];f.resena='';f.muestra=cap(e.muestra)+'.';
   var cl;
   if(g==='taller'){f.tipo='cotiza';f.trato='usted';f.entregas='';
     cl=[['Sr. Ruiz','la afinación del Tsuru'],['Paty','el cambio de balatas'],['Don Beto','la revisión del clutch'],['Andrés','el servicio de la camioneta'],['Lalo','el cambio de aceite']]}
   else if(g==='domicilio'){f.tipo='cotiza';f.trato='tu';f.entregas='';
     cl=[['Mónica','la limpieza de la sala'],['Jorge','el colchón y las 4 sillas'],['Rebeca','la sala de 5 piezas'],['Tere','el tapete de la estancia'],['Isaac','la limpieza del love seat']]}
+  else if(g==='online'){f.tipo='fijo';f.trato='tu';f.entregas='';
+    cl=[['Ana','las clases para el examen'],['Roberto','el curso de conversación'],['Fer','las clases de su hijo'],['Lucía','el paquete de 4 clases'],['Hugo','la clase de prueba']]}
   else if(g==='citas'){f.tipo='fijo';f.trato='tu';f.entregas='';
     cl=[['Diego','el corte con barba'],['Memo','el corte para la boda'],['Sebas','el diseño en la nuca'],['Rodrigo','el corte y barba'],['Toño','el corte del niño']]}
   else{f.tipo='cotiza';f.trato='tu';f.devoluciones='si el pastel sale mal lo repongo o regreso el dinero; si cancelan con menos de 3 días, el anticipo no se regresa';
@@ -211,38 +216,64 @@ function seed(g){
   return {ejemplo:true,tab:'hoy',nid:6,ficha:f,
     clientes:cl.map(function(c,i){return {id:i+1,nombre:c[0],pedido:c[1],tel:'',last:addDays(t,meta[i][0]),segs:meta[i][1],estado:meta[i][2]}})};
 }
-function blank(g){return {ejemplo:false,tab:'ficha',nid:1,ficha:{giro:g||'producto',tipo:'cotiza',trato:'tu'},clientes:[]}}
+function blank(g){return {ejemplo:false,tab:'ficha',nid:1,ficha:{giros:[g||'producto'],tipo:'cotiza',trato:'tu'},clientes:[]}}
 
 var S;
 try{S=JSON.parse(localStorage.getItem(KEY)||'null')}catch(e){S=null}
 if(!S||!S.ficha)S=seed('producto');
-if(!S.ficha.giro)S.ficha.giro='producto';
+function migra(f){if(!Array.isArray(f.giros))f.giros=[GIROS[f.giro]?f.giro:'producto'];delete f.giro}
+migra(S.ficha);
 function save(){try{localStorage.setItem(KEY,JSON.stringify(S))}catch(e){}}
 
 /* ---------- Mensajes ---------- */
 var CAMPOS={negocio:'nombre del negocio',yo:'tu nombre',precio:'tu precio',datos:'qué necesitas para cotizar',incluye:'qué incluye',opcion:'tu opción más sencilla',ubicacion:'dónde estás',horario:'tu horario',pagos:'formas de pago',anticipo:'anticipo',muestra:'qué mandas para que se decidan',devoluciones:'tu política de devoluciones',resena:'enlace de reseñas de Google'};
 var NOM='[aquí pon el nombre de tu cliente]', PED='[aquí pon lo que te pidió]';
-function G(){return GIROS[S.ficha.giro]?S.ficha.giro:'producto'}
-function campo(k){return k==='ubicacion'&&G()==='domicilio'?'qué zonas cubres':CAMPOS[k]}
+/* Tipo principal: el primero marcado que no sea "a domicilio". DOM(): además de su local, también va a domicilio */
+function GS(){var l=(S.ficha.giros||[]).filter(function(k){return GIROS[k]});return l.length?l:['producto']}
+function G(){var l=GS();return ['producto','taller','citas','online'].filter(function(k){return l.indexOf(k)>=0})[0]||'domicilio'}
+function ONL(){return G()!=='online'&&GS().indexOf('online')>=0}
+function DOM(){return G()!=='domicilio'&&GS().indexOf('domicilio')>=0}
+function campo(k){return k==='ubicacion'&&G()==='domicilio'?'qué zonas cubres':k==='ubicacion'&&G()==='online'?'por dónde atiendes':k==='zonas'?'a qué zonas vas':k==='enlinea'?'por dónde atiendes en línea':CAMPOS[k]}
 function F(k){var v=(S.ficha[k]||'').trim();if(k==='datos'&&S.ficha.tipo==='fijo')return v;return v||'[FALTA: '+campo(k)+']'}
 function U(){return S.ficha.trato==='usted'}
 function tv(a,b){return U()?b:a}
 /* Elige el texto según el tipo de negocio: o={producto:[tú,usted],taller:[...],...} */
-function gv(o){var x=o[G()]||o.producto;return tv(x[0],x[1])}
+function gv(o){var g=G(),x=o[g]||(g==='online'&&o.citas)||o.producto;return tv(x[0],x[1])}
+/* ---------- Tu forma de escribir ---------- */
+function SAL(u){var v=(S.ficha.saludo||'').trim();return v||(u?'Buen día':'Hola')}
+function emojis(){var t=(S.ficha.emojis||'').replace(/\s+/g,'');if(!t)return [];
+  try{if(window.Intl&&Intl.Segmenter)return Array.from(new Intl.Segmenter('es',{granularity:'grapheme'}).segment(t),function(x){return x.segment})}catch(e){}
+  return Array.from(t)}
+/* Le pone a un mensaje el cierre y un emoji del dueño, solo en los mensajes donde se ve natural */
+var VOZ={hola:0,seg1:1,seg3:2,gracias:3,recordatorio:4,resena:5};
+function voz(a,m){
+  if(!(a in VOZ))return m;
+  var c=(S.ficha.cierre||'').trim(), e=emojis(), em=e.length?e[VOZ[a]%e.length]:'';
+  if(c&&(a==='hola'||a==='gracias'||a==='seg3'))m=m+' '+c;
+  if(em)m=m+' '+em;
+  return m;
+}
+/* Mensajes que el dueño reescribió a su manera. [nombre] y [pedido] se cambian solos */
+function propio(a){var p=S.ficha.propios||{};return p[a]||''}
+function llenar(m,nom,ped){return m.split('[nombre]').join(nom).split('[pedido]').join(ped)}
+function segMsg(c){var a='seg'+(Math.min(c.segs,2)+1), p=propio(a);
+  return p?llenar(p,c.nombre,c.pedido):voz(a,seg(c.segs,c.nombre,c.pedido))}
 function lode(p){return /^el /i.test(p)?'lo del '+p.slice(3):'lo de '+p}
 
 function seg(n,nom,ped){
   var lo=lode(ped);
-  if(n===0)return tv('Hola '+nom+', ¿pudiste ver '+lo+'? ','Buen día '+nom+', ¿pudo revisar '+lo+'? ')+gv({
+  if(n===0)return tv(SAL()+' '+nom+', ¿pudiste ver '+lo+'? ',SAL(1)+' '+nom+', ¿pudo revisar '+lo+'? ')+gv({
     producto:['[aquí menciona algo que te contó, ej. "¿sigue en pie lo de la fiesta del sábado?"] Si te late te lo aparto, nada más avísame.','[aquí menciona algo que le contó, ej. "¿sigue en pie lo del sábado?"] Si le parece, se lo aparto, nada más me avisa.'],
     taller:['[aquí menciona algo que te contó, ej. "¿sigue haciendo el ruidito?"] Si quieres lo traes esta semana y lo revisamos, nada más avísame.','[aquí menciona algo que le contó, ej. "¿sigue haciendo el ruidito?"] Si gusta, lo trae esta semana y lo revisamos, nada más me avisa.'],
     domicilio:['[aquí menciona algo que te contó, ej. "¿la quieres lista antes de la reunión?"] Si te late te agendo la visita, nada más dime qué día te queda.','[aquí menciona algo que le contó, ej. "¿la quiere lista antes de la reunión?"] Si le parece, le agendo la visita, nada más me dice qué día le queda.'],
+    online:['[aquí menciona algo que te contó, ej. "¿sigue en pie lo del examen de diciembre?"] Si quieres te aparto un lugar, nada más dime qué día te queda.','[aquí menciona algo que le contó, ej. "¿sigue en pie lo del examen de diciembre?"] Si gusta, le aparto un lugar, nada más me dice qué día le queda.'],
     citas:['[aquí menciona algo que te contó, ej. "¿sigue en pie lo de la boda?"] Si quieres te aparto un horario, nada más dime qué día te queda.','[aquí menciona algo que le contó, ej. "¿sigue en pie lo de la boda?"] Si gusta, le aparto un horario, nada más me dice qué día le queda.']
   });
   if(n===1)return nom+', '+gv({
     producto:['te paso foto de uno que hicimos [aquí di cuándo, ej. "el fin de semana"] para que veas cómo quedan ya en persona. [aquí cuenta algo real de ese trabajo, ej. "también era para 30 personas"]','le comparto foto de uno que hicimos [aquí di cuándo, ej. "el fin de semana"] para que vea cómo quedan ya en persona. [aquí cuenta algo real de ese trabajo, ej. "también era para 30 personas"]'],
     taller:['te paso foto de uno que entregamos [aquí di cuándo, ej. "ayer"], traía algo parecido a lo tuyo. [aquí cuenta algo real, ej. "quedó listo en 2 días"]','le comparto foto de uno que entregamos [aquí di cuándo, ej. "ayer"], traía algo parecido a lo suyo. [aquí cuenta algo real, ej. "quedó listo en 2 días"]'],
     domicilio:['te paso el antes y después de una que hicimos [aquí di cuándo, ej. "el sábado"]. [aquí cuenta algo real, ej. "tenía manchas de café como la tuya"]','le comparto el antes y después de una que hicimos [aquí di cuándo, ej. "el sábado"]. [aquí cuenta algo real, ej. "tenía manchas de café como la suya"]'],
+    online:['te paso lo que me dijo [aquí pon quién, ej. "una alumna"] después de trabajar conmigo: [aquí pega o resume su comentario, ej. "pasó su examen a la primera"]','le comparto lo que me dijo [aquí pon quién, ej. "una alumna"] después de trabajar conmigo: [aquí pega o resume su comentario, ej. "pasó su examen a la primera"]'],
     citas:['te paso foto de uno que hicimos [aquí di cuándo, ej. "ayer"] para que veas cómo queda. [aquí cuenta algo real, ej. "él también quería algo discreto"]','le comparto foto de uno que hicimos [aquí di cuándo, ej. "ayer"] para que vea cómo queda. [aquí cuenta algo real, ej. "también quería algo discreto"]']
   })+' ¿Seguimos con '+lo+'?';
   return tv(
@@ -258,32 +289,36 @@ function segReco(n){return n===1?F('muestra')+' Que sea algo parecido a lo que p
 
 function rapidas(){
   var f=S.ficha, g=G(), cotiza=f.tipo!=='fijo', ent=g==='producto'?(f.entregas||'').trim():'', out=[], neg=F('negocio'), yo=F('yo');
-  var cuandoQ=gv({producto:['¿Para qué día lo ocupas?','¿Para qué día lo necesita?'],taller:['¿Cuándo lo podrías traer?','¿Cuándo lo podría traer?'],domicilio:['¿Qué día te quedaría la visita?','¿Qué día le quedaría la visita?'],citas:['¿Qué día te queda venir?','¿Qué día le queda venir?']});
-  var apartaQ=gv({producto:['Para apartártelo te pido','Para apartarlo le pido'],taller:['Para empezar te pido','Para empezar le pido'],domicilio:['Para agendarte la visita te pido','Para agendar la visita le pido'],citas:['Para apartarte el horario te pido','Para apartarle el horario le pido']});
+  var cuandoQ=gv({producto:['¿Para qué día lo ocupas?','¿Para qué día lo necesita?'],taller:['¿Cuándo lo podrías traer?','¿Cuándo lo podría traer?'],domicilio:['¿Qué día te quedaría la visita?','¿Qué día le quedaría la visita?'],citas:['¿Qué día te queda venir?','¿Qué día le queda venir?'],online:['¿Qué día te queda para empezar?','¿Qué día le queda para empezar?']});
+  var apartaQ=gv({producto:['Para apartártelo te pido','Para apartarlo le pido'],taller:['Para empezar te pido','Para empezar le pido'],domicilio:['Para agendarte la visita te pido','Para agendar la visita le pido'],citas:['Para apartarte el horario te pido','Para apartarle el horario le pido'],online:['Para apartarte tu lugar te pido','Para apartarle su lugar le pido']});
   out.push({a:'hola',c:'Cuando alguien escribe por primera vez',
-    m:tv('Hola '+NOM+', soy '+yo+' de '+neg+'. Cuéntame qué andas buscando y para cuándo, y te digo precio y si tengo espacio.',
-         'Buen día '+NOM+', le saluda '+yo+' de '+neg+'. Cuénteme qué necesita y para cuándo, y le digo precio y si tengo espacio.'),
+    m:tv(SAL()+' '+NOM+', soy '+yo+' de '+neg+'. Cuéntame qué andas buscando y para cuándo, y te digo precio y si tengo espacio.',
+         SAL(1)+' '+NOM+', le saluda '+yo+' de '+neg+'. Cuénteme qué necesita y para cuándo, y le digo precio y si tengo espacio.'),
     r:'Si en su perfil no sale su nombre, quítalo y deja solo "Hola". Presentarte con tu nombre hace que sientan que les contesta una persona.'});
-  var fotosR={producto:'Manda junto 2 o 3 fotos de trabajos tuyos parecidos a lo que pidió. Fotos reales, no de internet.',taller:'Manda junto 2 o 3 fotos de trabajos parecidos que ya entregaste, o un video corto del taller. Reales, no de internet.',domicilio:'Manda junto 2 o 3 fotos de antes y después de trabajos tuyos. Es lo que más convence en servicios a domicilio.',citas:'Manda junto 2 o 3 fotos de trabajos tuyos parecidos a lo que quiere. Fotos reales, no de internet.'}[g];
+  var fotosR={online:'Manda junto 1 o 2 capturas de comentarios de clientes. En línea pesa más lo que dicen otros que cualquier foto.',producto:'Manda junto 2 o 3 fotos de trabajos tuyos parecidos a lo que pidió. Fotos reales, no de internet.',taller:'Manda junto 2 o 3 fotos de trabajos parecidos que ya entregaste, o un video corto del taller. Reales, no de internet.',domicilio:'Manda junto 2 o 3 fotos de antes y después de trabajos tuyos. Es lo que más convence en servicios a domicilio.',citas:'Manda junto 2 o 3 fotos de trabajos tuyos parecidos a lo que quiere. Fotos reales, no de internet.'}[g];
   if(cotiza){
     out.push({a:'precio',c:'Cuando preguntan cuánto cuesta',
       m:tv('Mira, depende de '+F('datos')+'. Para que te des una idea, '+F('precio')+'. Pásame esos datos y te digo exacto cuánto te sale.',
            'Depende de '+F('datos')+'. Para darle una idea, '+F('precio')+'. Si me comparte esos datos, le digo exacto cuánto le sale.'),
       r:fotosR});
-    var ejCot={producto:'"pastel de 30 personas de chocolate con fresas"',taller:'"cambio de balatas delanteras y rectificar discos"',domicilio:'"sala de 3 piezas y un tapete"',citas:'"corte y barba con diseño"'}[g];
+    var ejCot={online:'"4 clases para preparar el examen"',producto:'"pastel de 30 personas de chocolate con fresas"',taller:'"cambio de balatas delanteras y rectificar discos"',domicilio:'"sala de 3 piezas y un tapete"',citas:'"corte y barba con diseño"'}[g];
     out.push({a:'cotizacion',c:'Cuando ya tienes sus datos y le das el precio',
       m:tv('Ya quedó. [aquí repite lo que pidió con sus detalles, ej. '+ejCot+'] te sale en $[aquí pon el precio] y ya incluye '+F('incluye')+'. '+apartaQ+' '+F('anticipo')+', ¿te paso la cuenta?',
            'Listo. [aquí repite lo que pidió con sus detalles, ej. '+ejCot+'] le queda en $[aquí pon el precio] y ya incluye '+F('incluye')+'. '+apartaQ+' '+F('anticipo')+', ¿le paso la cuenta?'),
       r:'Repetir lo que pidió con sus palabras le da confianza de que entendiste bien.'});
   }else{
     out.push({a:'precio',c:'Cuando preguntan cuánto cuesta',
-      m:cap(F('precio'))+'. '+cuandoQ+' '+gv({producto:['Así te lo voy apartando.','Así se lo voy apartando.'],taller:['Así te hago espacio.','Así le hago espacio.'],domicilio:['Así te agendo.','Así le agendo.'],citas:['Así te aparto tu horario.','Así le aparto su horario.']}),
+      m:cap(F('precio'))+'. '+cuandoQ+' '+gv({producto:['Así te lo voy apartando.','Así se lo voy apartando.'],taller:['Así te hago espacio.','Así le hago espacio.'],domicilio:['Así te agendo.','Así le agendo.'],citas:['Así te aparto tu horario.','Así le aparto su horario.'],online:['Así te aparto tu lugar.','Así le aparto su lugar.']}),
       r:fotosR});
     out.push({a:'info',c:'Cuando preguntan qué incluye o cómo funciona',
       m:tv('Incluye '+F('incluye')+'. Si algo no te queda claro pregúntame sin pena. ','Incluye '+F('incluye')+'. Si algo no le queda claro, pregúnteme con confianza. ')+cuandoQ,
       r:''});
   }
-  if(g==='domicilio'){
+  if(g==='online'||ONL())out.push({a:'enlinea',c:'Cuando preguntan cómo funciona en línea',
+    m:tv((g==='online'?'Es':'También lo hacemos en línea,')+' por '+F(g==='online'?'ubicacion':'enlinea')+'. Te mando la liga un rato antes y entras desde tu cel o tu compu, donde estés. ¿Qué día te queda?',(g==='online'?'Es':'También lo hacemos en línea,')+' por '+F(g==='online'?'ubicacion':'enlinea')+'. Le mando la liga un rato antes y entra desde su cel o su compu, donde esté. ¿Qué día le queda?'),
+    r:'Mucha gente duda porque nunca lo ha hecho en línea. Si la ves insegura, ofrécele una llamada de 5 minutos para probar la conexión.'});
+  if(g==='online'){}
+  else if(g==='domicilio'){
     out.push({a:'zona',c:'Cuando preguntan si llegas a su zona',
       m:tv('Vamos a '+F('ubicacion')+'. ¿En qué colonia estás? Así te digo si llegamos y si se cobra algo extra.','Vamos a '+F('ubicacion')+'. ¿En qué colonia se encuentra? Así le digo si llegamos y si se cobra algo extra.'),
       r:'Si cobras extra por distancia, dilo desde aquí para que no haya sorpresas el día de la visita.'});
@@ -291,9 +326,12 @@ function rapidas(){
     out.push({a:'ubicacion',c:'Cuando preguntan dónde estás',
       m:tv('Estamos en '+F('ubicacion')+'. Ahorita te mando la ubicación para que llegues sin vueltas. ','Estamos en '+F('ubicacion')+'. Ahorita le mando la ubicación para que llegue sin vueltas. ')+gv({producto:['¿Qué día piensas venir?','¿Qué día piensa venir?'],taller:['¿Cuándo lo traerías?','¿Cuándo lo traería?'],citas:['¿Qué día te queda?','¿Qué día le queda?']}),
       r:'Manda tu ubicación de Google Maps justo después. Si es difícil de encontrar, una foto de tu fachada ayuda muchísimo.'});
+    if(DOM())out.push({a:'domicilio',c:'Cuando preguntan si van a su casa',
+      m:tv('Sí, también vamos a domicilio a '+F('zonas')+'. [aquí pon si cuesta más, ej. "A domicilio son $80 extra"] ¿En qué colonia estás?','Sí, también vamos a domicilio a '+F('zonas')+'. [aquí pon si cuesta más, ej. "A domicilio son $80 extra"] ¿En qué colonia se encuentra?'),
+      r:'Di desde el principio si a domicilio cuesta más. Si no cobras extra, borra lo amarillo.'});
   }
   out.push({a:'horario',c:'Cuando preguntan a qué hora atiendes',
-    m:tv('Abrimos '+F('horario')+'. ¿Qué día te acomoda?','Abrimos '+F('horario')+'. ¿Qué día le acomoda?'),r:''});
+    m:tv((G()==='online'?'Atiendo ':'Abrimos ')+F('horario')+'. ¿Qué día te acomoda?',(G()==='online'?'Atiendo ':'Abrimos ')+F('horario')+'. ¿Qué día le acomoda?'),r:''});
   out.push({a:'pago',c:'Cuando preguntan cómo pagar',
     m:tv('Puedes pagar con '+F('pagos')+', como se te haga más fácil. ¿Cómo le hacemos?','Puede pagar con '+F('pagos')+', como le quede más fácil. ¿Cómo le hacemos?'),
     r:'Ten guardada una imagen con tus datos para transferir, así no los escribes cada vez.'});
@@ -301,8 +339,8 @@ function rapidas(){
     producto:[ent?'cuando te lo entreguemos':'cuando pases por él',ent?'cuando se lo entreguemos':'cuando pase por él'],
     taller:['cuando pases por él ya listo','cuando pase por él ya listo'],
     domicilio:['cuando terminemos el trabajo','cuando terminemos el trabajo'],
-    citas:['el día de tu cita','el día de su cita']});
-  out.push({a:'apartar',c:g==='citas'||g==='domicilio'?'Cuando ya quiere agendar':'Cuando ya quiere apartar',
+    citas:['el día de tu cita','el día de su cita'],online:['antes de la siguiente sesión','antes de la siguiente sesión']});
+  out.push({a:'apartar',c:g==='citas'||g==='domicilio'||g==='online'?'Cuando ya quiere agendar':'Cuando ya quiere apartar',
     m:apartaQ+' '+F('anticipo')+tv(' y lo demás me lo das ',' y lo demás me lo da ')+resto+tv('. ¿Te paso los datos para transferir?','. ¿Le paso los datos para transferir?'),
     r:'Manda tus datos para transferir en un mensaje aparte, solos, para que los pueda copiar fácil.'});
   if(g==='taller'){
@@ -311,21 +349,32 @@ function rapidas(){
       r:'Manda foto o video corto del trabajo terminado. Si viste algo más que conviene arreglar, díselo aquí, no hasta que llegue por él.'});
   }else if(g==='domicilio'){
     out.push({a:'encamino',c:'El día de la visita, antes de llegar',
-      m:tv('Hola '+NOM+', soy '+yo+' de '+neg+'. Ya voy en camino, llego como en [aquí pon cuánto, ej. "20 minutos"].','Buen día '+NOM+', soy '+yo+' de '+neg+'. Ya voy en camino, llego aproximadamente en [aquí pon cuánto, ej. "20 minutos"].'),
+      m:tv(SAL()+' '+NOM+', soy '+yo+' de '+neg+'. Ya voy en camino, llego como en [aquí pon cuánto, ej. "20 minutos"].',SAL(1)+' '+NOM+', soy '+yo+' de '+neg+'. Ya voy en camino, llego aproximadamente en [aquí pon cuánto, ej. "20 minutos"].'),
       r:'Mándalo siempre. A la gente le da confianza saber quién va a llegar a su casa y a qué hora.'});
-  }else if(g==='citas'){
+  }
+  if(g==='online'||ONL()){
+    out.push({a:'liga',c:'Un rato antes de la sesión',
+      m:tv(SAL()+' '+NOM+', aquí está la liga para hoy a las [aquí pon la hora]: [aquí pega la liga]. Si algo no te abre, me escribes.',SAL(1)+' '+NOM+', aquí está la liga para hoy a las [aquí pon la hora]: [aquí pega la liga]. Si algo no le abre, me escribe.'),
+      r:'Mándala de 15 a 30 minutos antes. Si la mandas desde un día antes se les pierde en el chat.'});
+  }
+  if(g==='online'){}
+  else if(g==='taller'||g==='domicilio'){}
+  else if(g==='citas'){
     out.push({a:'recordatorio',c:'Un día antes de la cita',
-      m:tv('Hola '+NOM+', te recuerdo tu cita mañana a las [aquí pon la hora]. Si se te complica avísame y la movemos, sin problema.','Buen día '+NOM+', le recuerdo su cita mañana a las [aquí pon la hora]. Si se le complica me avisa y la movemos, sin problema.'),
+      m:tv(SAL()+' '+NOM+', te recuerdo tu cita mañana a las [aquí pon la hora]. Si se te complica avísame y la movemos, sin problema.',SAL(1)+' '+NOM+', le recuerdo su cita mañana a las [aquí pon la hora]. Si se le complica me avisa y la movemos, sin problema.'),
       r:'Mandarlo un día antes baja muchísimo las citas a las que no llegan.'});
   }else{
     out.push({a:'envio',c:'Cuando preguntan si entregas',
       m:ent?tv('Sí llevamos, '+ent+'. ¿Por qué zona estás?','Sí llevamos, '+ent+'. ¿Por qué zona se encuentra?')
            :tv('Ahorita no tenemos entregas, pero puedes pasar a '+F('ubicacion')+'. ¿Qué día te quedaría?','Por ahora no tenemos entregas, pero puede pasar a '+F('ubicacion')+'. ¿Qué día le quedaría?'),r:''});
   }
+  if(DOM())out.push({a:'encamino',c:'Cuando vas a su casa, antes de llegar',
+    m:tv(SAL()+' '+NOM+', soy '+yo+' de '+neg+'. Ya voy en camino, llego como en [aquí pon cuánto, ej. "20 minutos"].',SAL(1)+' '+NOM+', soy '+yo+' de '+neg+'. Ya voy en camino, llego aproximadamente en [aquí pon cuánto, ej. "20 minutos"].'),
+    r:'Mándalo siempre. A la gente le da confianza saber quién va a llegar a su casa y a qué hora.'});
   out.push({a:'caro',c:'Cuando dicen que está caro',
-    m:tv('Si quieres algo que no se vaya tan alto, '+F('opcion')+'. ','Si busca algo que no se vaya tan alto, '+F('opcion')+'. ')+gv({producto:['Te mando foto para que veas cómo queda, ¿sale?','Le mando foto para que vea cómo queda, ¿le parece?'],taller:['¿Cómo ves?','¿Cómo lo ve?'],domicilio:['Te mando foto de cómo queda, ¿sale?','Le mando foto de cómo queda, ¿le parece?'],citas:['Te mando foto para que veas cómo queda, ¿sale?','Le mando foto para que vea cómo queda, ¿le parece?']}),
+    m:tv('Si quieres algo que no se vaya tan alto, '+F('opcion')+'. ','Si busca algo que no se vaya tan alto, '+F('opcion')+'. ')+gv({producto:['Te mando foto para que veas cómo queda, ¿sale?','Le mando foto para que vea cómo queda, ¿le parece?'],taller:['¿Cómo ves?','¿Cómo lo ve?'],domicilio:['Te mando foto de cómo queda, ¿sale?','Le mando foto de cómo queda, ¿le parece?'],citas:['Te mando foto para que veas cómo queda, ¿sale?','Le mando foto para que vea cómo queda, ¿le parece?'],online:['¿Cómo ves?','¿Cómo lo ve?']}),
     r:'No le bajes el precio a lo mismo, porque luego sus conocidos te van a pedir ese precio. Mejor manda foto de la opción sencilla ya terminada.'});
-  var ejDuda={producto:'"el sabor" o "la fecha"',taller:'"la refacción" o "cuánto tarda"',domicilio:'"el precio por pieza" o "cuánto tarda en secar"',citas:'"el estilo" o "el horario"'}[g];
+  var ejDuda={online:'"el horario" o "cómo funciona en línea"',producto:'"el sabor" o "la fecha"',taller:'"la refacción" o "cuánto tarda"',domicilio:'"el precio por pieza" o "cuánto tarda en secar"',citas:'"el estilo" o "el horario"'}[g];
   out.push({a:'lopienso',c:'Cuando dicen "lo pienso"',
     m:tv('Sale, piénsalo con calma. Si te quedó alguna duda de [aquí pon algo que platicaron, ej. '+ejDuda+'], dime y la vemos.','Claro, piénselo con calma. Si le quedó alguna duda de [aquí pon algo que platicaron, ej. '+ejDuda+'], me dice y la vemos.'),
     r:'Anótalo en Clientes. Mañana la app te recuerda escribirle.'});
@@ -336,11 +385,18 @@ function rapidas(){
     producto:['¡Gracias '+NOM+'! Ojalá [aquí pon para qué era, ej. "la fiesta"] salga increíble. Si algo no te gusta me dices, eh.','¡Gracias '+NOM+'! Ojalá [aquí pon para qué era, ej. "la fiesta"] salga muy bien. Si algo no le gusta, me avisa por favor.'],
     taller:['¡Gracias '+NOM+'! Si estos días notas algo raro con [aquí pon lo que arreglaste, ej. "los frenos"], me escribes y lo revisamos.','¡Gracias '+NOM+'! Si estos días nota algo raro con [aquí pon lo que arreglaste, ej. "los frenos"], me escribe y lo revisamos.'],
     domicilio:['¡Gracias '+NOM+'! Si notas algo que no quedó bien, me dices y regreso a revisarlo.','¡Gracias '+NOM+'! Si nota algo que no quedó bien, me avisa y regreso a revisarlo.'],
+    online:['¡Gracias '+NOM+'! Me dio gusto trabajar contigo. Cualquier duda de lo que vimos, escríbeme.','¡Gracias '+NOM+'! Fue un gusto trabajar con usted. Cualquier duda de lo que vimos, me escribe.'],
     citas:['¡Gracias '+NOM+'! Me dio gusto verte. Cuando quieras tu siguiente cita, nada más escríbeme.','¡Gracias '+NOM+'! Fue un gusto atenderle. Cuando quiera su siguiente cita, nada más me escribe.']}),r:''});
   out.push({a:'resena',c:'2 o 3 días después de que compró',
     m:tv(NOM+', ¿me haces un favor? Si te gustó [aquí pon lo que compró], déjanos una reseña en Google. A los negocios chiquitos nos ayuda muchísimo: '+F('resena'),
          NOM+', ¿me haría un favor? Si le gustó [aquí pon lo que compró], ¿nos deja una reseña en Google? A los negocios chiquitos nos ayuda muchísimo: '+F('resena')),
     r:'Mándalo cuando ya lo usó o lo probó. No ofrezcas nada a cambio de la reseña, Google no lo permite.'});
+  var apodo=(f.apodo||'').trim();
+  out.forEach(function(x){
+    if(propio(x.a)){x.m=llenar(propio(x.a),NOM,PED);x.mio=true;return}
+    if(x.a==='hola'&&apodo)x.m=x.m.replace(NOM,apodo);
+    x.m=voz(x.a,x.m);
+  });
   return out;
 }
 function situaciones(){
@@ -350,17 +406,19 @@ function situaciones(){
     taller:{k:'tarda',t:'"¿Cuánto tarda?"',ms:[{m:tv('Normalmente [aquí pon el tiempo, ej. "2 o 3 días"], pero te confirmo bien cuando lo revise. Si encuentro algo más, te aviso antes de meterle mano.','Normalmente [aquí pon el tiempo, ej. "2 o 3 días"], pero le confirmo bien cuando lo revise. Si encuentro algo más, le aviso antes de meterle mano.')}],tip:'Mejor di un poco más de tiempo y entrega antes. Y nunca cobres algo extra que no le avisaste primero.'},
     domicilio:{k:'tarda',t:'"¿Cuánto tardan?"',ms:[{m:tv('Más o menos [aquí pon cuánto, ej. "3 horas"], depende de cómo esté. [aquí pon algo que deba saber, ej. "Después hay que dejarla secar unas 6 horas"]','Más o menos [aquí pon cuánto, ej. "3 horas"], depende de cómo esté. [aquí pon algo que deba saber, ej. "Después hay que dejarla secar unas 6 horas"]')}],tip:'Dile desde antes qué tiene que preparar (mover muebles, dejar libre el espacio). Así no pierdes tiempo el día de la visita.'},
     citas:{k:'mover',t:'Quiere cambiar su cita',ms:[{m:tv('Claro, sin problema. Tengo [aquí pon 2 horarios, ej. "el jueves a las 5 o el viernes a las 11"], ¿cuál te queda mejor?','Claro, sin problema. Tengo [aquí pon 2 horarios, ej. "el jueves a las 5 o el viernes a las 11"], ¿cuál le queda mejor?')}],tip:'Dale 2 opciones concretas. Si le preguntas "¿cuándo puedes?" se tarda días en contestar.'}
+    ,online:{k:'mover',t:'Quiere cambiar su sesión',ms:[{m:tv('Claro, sin problema. Tengo [aquí pon 2 horarios, ej. "el jueves a las 5 o el viernes a las 11"], ¿cuál te queda mejor?','Claro, sin problema. Tengo [aquí pon 2 horarios, ej. "el jueves a las 5 o el viernes a las 11"], ¿cuál le queda mejor?')}],tip:'Dale 2 opciones concretas. Si le preguntas "¿cuándo puedes?" se tarda días en contestar.'}
   }[g];
-  var hoyT={producto:'"¿Tienes para hoy?"',taller:'"¿Me lo tienes hoy?"',domicilio:'"¿Pueden venir hoy?"',citas:'"¿Tienes espacio hoy?"'}[g];
+  var hoyT={online:'"¿Tienes espacio hoy?"',producto:'"¿Tienes para hoy?"',taller:'"¿Me lo tienes hoy?"',domicilio:'"¿Pueden venir hoy?"',citas:'"¿Tienes espacio hoy?"'}[g];
   var list=[
     {k:'precio',t:'Pregunta el precio',ms:[{m:r.precio.m}],tip:esc(r.precio.r)},
     {k:'caro',t:'"Está caro"',ms:[{m:r.caro.m}],tip:esc(r.caro.r)},
     {k:'pienso',t:'"Lo pienso"',ms:[{m:r.lopienso.m}],tip:esc(r.lopienso.r)},
     {k:'aviso',t:'"Luego te aviso"',ms:[{m:tv('Va, sin problema. ¿Te parece si te escribo el [aquí pon un día, ej. "jueves"] para ver cómo vas? Más que nada para que no se te pase la fecha.','Claro, sin problema. ¿Le parece si le escribo el [aquí pon un día, ej. "jueves"] para ver cómo va? Más que nada para que no se le pase la fecha.')}],tip:'Si te dice que sí, anótalo en Clientes para que la app te lo recuerde.'},
     {k:'desc',t:'Pide descuento',ms:[{m:tv('Ese ya es el mejor precio que te puedo dar, pero tengo algo más sencillo: '+F('opcion')+'. ¿Quieres que te mande cómo queda?','Ese ya es el mejor precio que le puedo dar, pero tengo algo más sencillo: '+F('opcion')+'. ¿Quiere que le mande cómo queda?')}],tip:'Si le das descuento a uno, se corre la voz y todos te lo van a pedir.'},
-    {k:'hoy',t:hoyT,ms:[{m:g==='citas'?tv('Déjame ver la agenda y te confirmo en un ratito. ¿Más o menos a qué hora podrías venir?','Permítame revisar la agenda y le confirmo en un ratito. ¿Más o menos a qué hora podría venir?'):tv('Déjame checar cómo voy y te confirmo en un ratito. ¿Más o menos a qué hora lo necesitarías?','Permítame revisar cómo voy y le confirmo en un ratito. ¿Más o menos a qué hora lo necesitaría?')}],tip:'Contesta aunque no puedas. Si hoy no se puede, ofrécele el día más cercano que sí.'}
+    {k:'hoy',t:hoyT,ms:[{m:g==='citas'||g==='online'?tv('Déjame ver la agenda y te confirmo en un ratito. ¿Más o menos a qué hora te acomoda?','Permítame revisar la agenda y le confirmo en un ratito. ¿Más o menos a qué hora le acomoda?'):tv('Déjame checar cómo voy y te confirmo en un ratito. ¿Más o menos a qué hora lo necesitarías?','Permítame revisar cómo voy y le confirmo en un ratito. ¿Más o menos a qué hora lo necesitaría?')}],tip:'Contesta aunque no puedas. Si hoy no se puede, ofrécele el día más cercano que sí.'}
   ];
   if(extra)list.push(extra);
+  if(DOM())list.push({k:'adom',t:'"¿Vienen a domicilio?"',ms:[{m:r.domicilio.m}],tip:esc(r.domicilio.r)});
   return list.concat([
     {k:'molesto',t:'Cliente molesto',ms:[{m:tv('[aquí pon su nombre], qué mala onda lo que pasó con [aquí pon qué salió mal], perdóname. Ya lo estoy revisando. ¿Te puedo marcar en un rato para arreglarlo?','[aquí pon su nombre], lamento mucho lo que pasó con [aquí pon qué salió mal]. Ya lo estoy revisando. ¿Le puedo llamar en un rato para resolverlo?')}],tip:'Contesta rápido, reconoce el problema sin justificarte y pásalo a llamada. Por chat todo se lee más feo de lo que es.'},
     {k:'devolucion',t:'Quiere su dinero de vuelta',ms:[
@@ -368,12 +426,12 @@ function situaciones(){
       {s:'Si sí fue error tuyo',m:tv('Ya lo revisé y tienes razón, se nos fue. Te [aquí pon qué haces, ej. "lo repongo sin costo" o "regreso tu dinero"] [aquí pon cuándo, ej. "mañana a mediodía"]. Perdón por la vuelta.','Ya lo revisé y tiene razón, fue error nuestro. Le [aquí pon qué haces, ej. "repongo el pedido sin costo" o "regreso su dinero"] [aquí pon cuándo, ej. "mañana a mediodía"]. Perdón por la molestia.')},
       {s:'Si no aplica la devolución',m:tv('Ya lo revisé. [aquí explica con calma por qué no aplica, según tu política] Lo que sí puedo hacer es [aquí ofrece algo, ej. "un cambio" o "un descuento en tu siguiente pedido"]. ¿Te marco y lo platicamos?','Ya lo revisé. [aquí explica con calma por qué no aplica, según tu política] Lo que sí puedo hacer es [aquí ofrece algo, ej. "un cambio" o "un descuento en su siguiente pedido"]. ¿Le llamo y lo platicamos?')}
     ],tip:pol+' No prometas el dinero en el primer mensaje, primero revisa qué pasó. Si fue tu error, resuélvelo rápido y sin pelear; muchas veces ese cliente regresa.'},
-    {k:'cancelar',t:g==='citas'||g==='domicilio'?'Quiere cancelar':'Quiere cancelar su pedido',ms:[{m:tv('Sale, gracias por avisarme con tiempo. [aquí explica qué pasa con su anticipo, según tu política] ¿Quieres moverlo a otra fecha o de plano lo cancelamos?','Gracias por avisarme con tiempo. [aquí explica qué pasa con su anticipo, según tu política] ¿Prefiere moverlo a otra fecha o lo cancelamos?')}],tip:pol+' Ofrecer otra fecha antes de cancelar muchas veces salva la venta.'},
+    {k:'cancelar',t:g==='citas'||g==='domicilio'||g==='online'?'Quiere cancelar':'Quiere cancelar su pedido',ms:[{m:tv('Sale, gracias por avisarme con tiempo. [aquí explica qué pasa con su anticipo, según tu política] ¿Quieres moverlo a otra fecha o de plano lo cancelamos?','Gracias por avisarme con tiempo. [aquí explica qué pasa con su anticipo, según tu política] ¿Prefiere moverlo a otra fecha o lo cancelamos?')}],tip:pol+' Ofrecer otra fecha antes de cancelar muchas veces salva la venta.'},
     {k:'visto',t:'Me dejó en visto',ms:[],tip:'No le escribas otra vez hoy. Anótalo en <b>Clientes</b> y mañana la app te dice qué mandarle.'}
   ]);
 }
-function hl(s){return esc(s).replace(/\[FALTA:[^\]]*\]/g,function(m){return '<span class="falta">'+m+'</span>'}).replace(/\[aquí[^\]]*\]/g,function(m){return '<span class="fill">'+m+'</span>'})}
-function huecos(txt){return txt.match(/\[(aquí|FALTA)[^\]]*\]/g)||[]}
+function hl(s){return esc(s).replace(/\[(nombre|pedido)\]/g,function(m){return '<span class="fill">'+m+'</span>'}).replace(/\[FALTA:[^\]]*\]/g,function(m){return '<span class="falta">'+m+'</span>'}).replace(/\[aquí[^\]]*\]/g,function(m){return '<span class="fill">'+m+'</span>'})}
+function huecos(txt){return txt.match(/\[(?:aquí[^\]]*|FALTA[^\]]*|nombre|pedido)\]/g)||[]}
 function todoHtml(txt){
   var h=huecos(txt);
   if(!h.length)return '<span class="pill ok">Listo para mandar</span>';
@@ -424,7 +482,7 @@ function instalarHtml(){
 }
 
 /* ---------- Vistas ---------- */
-var view=document.getElementById('view'), openAdd=false, sit=null, restaurando=null;
+var view=document.getElementById('view'), openAdd=false, sit=null, restaurando=null, editA=null;
 
 function vHoy(){
   var due=dueList(), prox=pend().filter(function(c){return nextDate(c)>today()}), comp=S.clientes.filter(function(c){return c.estado==='compro'}).length;
@@ -436,7 +494,7 @@ function vHoy(){
     h+='<div class="empty">Hoy no te toca escribirle a nadie.<br>Cuando alguien te pregunte y no compre, anótalo en <b>Clientes</b>.</div>';
   }
   due.forEach(function(c){
-    var w=cuando(c), msg=seg(c.segs,c.nombre,c.pedido), reco=segReco(c.segs);
+    var w=cuando(c), msg=segMsg(c), reco=segReco(c.segs);
     h+='<article class="card due '+(w.cls==='late'?'late':'')+'" data-id="'+c.id+'">'+
       '<div class="chead"><div><div class="cname">'+esc(c.nombre)+'</div><div class="cped">'+esc(cap(c.pedido))+' · último mensaje '+hace(c.last)+'</div></div><span class="pill '+w.cls+'">'+w.txt+'</span></div>'+
       '<div class="meta">Mensaje <b>'+(c.segs+1)+' de 3</b></div>'+
@@ -518,19 +576,24 @@ function vRespuestas(){
     '<li>Cuando la uses en un chat, antes de mandarla cambia lo que está entre [ ] por lo de ese cliente.</li></ol></details>';
   h+='<div class="list">';
   r.forEach(function(x,i){
-    h+='<div class="row-item"><div class="row-top"><div><span class="atajo">/'+x.a+'</span><div class="cped">'+esc(x.c)+'</div></div><button type="button" class="small" data-copy="r-'+i+'">Copiar</button></div><div class="msg" id="r-'+i+'">'+hl(x.m)+'</div>'+(x.r?'<div class="reco"><b>Te recomiendo</b>'+hl(x.r)+'</div>':'')+'</div>';
+    var ed=editA===x.a, base=(x.mio?propio(x.a):x.m).split(NOM).join('[nombre]').split(PED).join('[pedido]');
+    h+='<div class="row-item"><div class="row-top"><div><span class="atajo">/'+x.a+'</span>'+(x.mio?' <span class="pill ok">A tu manera</span>':'')+'<div class="cped">'+esc(x.c)+'</div></div><button type="button" class="small" data-copy="r-'+i+'">Copiar</button></div>'+
+      (ed?'<div class="field"><label for="ed-'+x.a+'">Escríbelo como tú lo dirías</label><textarea id="ed-'+x.a+'">'+esc(base)+'</textarea><small>Deja <b>[nombre]</b> donde va el nombre del cliente y <b>[pedido]</b> donde va lo que pidió. La app los cambia sola.</small></div>'+
+        '<div class="btns"><button type="button" class="main small" data-edsave="'+x.a+'">Guardar mi versión</button><button type="button" class="small" data-edcancel="1">Cancelar</button>'+(x.mio?'<button type="button" class="small" data-edreset="'+x.a+'">Regresar al original</button>':'')+'</div>'
+      :'<div class="msg" id="r-'+i+'">'+hl(x.m)+'</div><div class="btns"><button type="button" class="small" data-edit="'+x.a+'">Escribirlo a mi manera</button></div>')+
+      (x.r?'<div class="reco"><b>Te recomiendo</b>'+hl(x.r)+'</div>':'')+'</div>';
   });
   h+='</div></section>';
   return h;
 }
 
 function vFicha(){
-  var f=S.ficha, g=G(), ej=EJ[g], faltan=Object.keys(CAMPOS).filter(function(k){return !(k==='datos'&&f.tipo==='fijo')&&!(f[k]||'').trim()});
-  function inp(k,label,help){return '<div class="field"><label for="f-'+k+'">'+label+'</label><input id="f-'+k+'" data-f="'+k+'" value="'+esc(f[k]||'')+'" placeholder="'+esc(ej[k]?'Ej. '+ej[k]:'')+'" autocomplete="off">'+(help?'<small>'+help+'</small>':'')+'</div>'}
+  var f=S.ficha, g=G(), ej=EJ[g], faltan=Object.keys(CAMPOS).concat(DOM()?['zonas']:[]).concat(ONL()?['enlinea']:[]).filter(function(k){return !(k==='datos'&&f.tipo==='fijo')&&!(f[k]||'').trim()});
+  function inp(k,label,help){return '<div class="field"><label for="f-'+k+'">'+label+'</label><input id="f-'+k+'" data-f="'+k+'" value="'+esc(f[k]||'')+'" placeholder="'+esc(k==='enlinea'?'Ej. Zoom o videollamada de WhatsApp':k==='zonas'?'Ej. '+ejZonas():ej[k]?'Ej. '+ej[k]:'')+'" autocomplete="off">'+(help?'<small>'+help+'</small>':'')+'</div>'}
   var h='<section><h1>Mi ficha</h1><p class="sub">Llénala una vez. Con esto se arman tus respuestas y tus mensajes de seguimiento. Se guarda en tu teléfono.</p>'+
     (faltan.length?'<div class="tip">Te faltan '+faltan.length+': '+faltan.map(campo).join(', ')+'. Mientras, salen como <span class="falta">[FALTA]</span> en tus mensajes.</div>':'<div class="pill ok" style="align-self:flex-start">Ficha completa</div>')+'</section>';
   h+='<form class="card" id="fFicha" onsubmit="return false">'+
-    '<div class="field"><label>¿Qué tipo de negocio tienes?</label><div class="radios giros">'+Object.keys(GIROS).map(function(k){return '<label><input type="radio" name="giro" value="'+k+'" '+(g===k?'checked':'')+'> <span>'+GIROS[k].t+'<small>'+GIROS[k].ej+'</small></span></label>'}).join('')+'</div><small>Con esto cambian tus mensajes: si apartas, agendas visita o das cita.</small></div>'+
+    '<div class="field"><label>¿Cómo trabajas? Marca todas las que te tocan</label><div class="radios giros">'+Object.keys(GIROS).map(function(k){return '<label><input type="checkbox" name="giros" value="'+k+'" '+(GS().indexOf(k)>=0?'checked':'')+'> <span>'+GIROS[k].t+'<small>'+GIROS[k].ej+'</small></span></label>'}).join('')+'</div><small>Por ejemplo, si tienes local y también vas a domicilio, marca las dos. Con esto cambian tus mensajes.</small></div>'+
     inp('negocio','Nombre del negocio')+
     inp('yo','Tu nombre (como te presentas)','Así los mensajes suenan a que les contesta una persona.')+
     '<div class="field"><label>¿Cómo das precio?</label><div class="radios"><label><input type="radio" name="tipo" value="fijo" '+(f.tipo==='fijo'?'checked':'')+'> Precio fijo</label><label><input type="radio" name="tipo" value="cotiza" '+(f.tipo!=='fijo'?'checked':'')+'> Cotizo según lo que piden</label></div></div>'+
@@ -538,17 +601,26 @@ function vFicha(){
     (f.tipo!=='fijo'?inp('datos','¿Qué necesitas saber para cotizar?'):'')+
     inp('incluye','¿Qué incluye?')+
     inp('opcion','Tu opción más sencilla o económica','Es lo que ofreces cuando te dicen "está caro". Nunca bajas el precio de lo mismo.')+
-    inp('ubicacion',g==='domicilio'?'¿Qué zonas cubres?':'¿Dónde estás?')+
+    inp('ubicacion',g==='domicilio'?'¿Qué zonas cubres?':g==='online'?'¿Por dónde atiendes?':'¿Dónde estás?')+
+    (ONL()?inp('enlinea','¿Por dónde atiendes en línea?'):'')+
+    (DOM()?inp('zonas','¿A qué zonas vas a domicilio?'):'')+
     inp('horario','Horario')+
     (g==='producto'?inp('entregas','¿Entregas a domicilio? (déjalo vacío si no)'):'')+
     inp('pagos','Formas de pago')+
-    inp('anticipo',g==='citas'?'Anticipo para apartar la cita':g==='domicilio'?'Anticipo para agendar la visita':g==='taller'?'¿Qué pides para empezar?':'Anticipo para apartar')+
+    inp('anticipo',g==='online'?'¿Qué pides para apartar su lugar?':g==='citas'?'Anticipo para apartar la cita':g==='domicilio'?'Anticipo para agendar la visita':g==='taller'?'¿Qué pides para empezar?':'Anticipo para apartar')+
     inp('muestra','¿Qué mandas para que se decidan?','Te lo recuerdo en el segundo seguimiento.')+
     inp('devoluciones','¿Qué haces si piden devolución o cancelan?','Solo lo ves tú, para que contestes parejo a todos.')+
     '<div class="field"><label>¿Cómo le hablas a tus clientes?</label><div class="radios"><label><input type="radio" name="trato" value="tu" '+(f.trato!=='usted'?'checked':'')+'> De tú</label><label><input type="radio" name="trato" value="usted" '+(f.trato==='usted'?'checked':'')+'> De usted</label></div></div>'+
     inp('resena','Enlace para dejarte reseña en Google','Pégalo aquí si lo tienes.')+
   '</form>';
   if(!instalada())h+=instalarHtml();
+  h+='<section class="card" id="voz"><h2>Tu forma de escribir</h2><p class="sub">Para que los mensajes suenen a ti y no a plantilla. Llena solo lo que sí usas.</p>'+
+    inp('saludo','¿Cómo saludas?','Ej. "Holaa", "Qué tal", "Buenas tardes". Si lo dejas vacío sale "Hola".')+
+    inp('apodo','¿Les dices de cariño a tus clientes?','Ej. "amiga", "jefe", "joven", "linda". Sale en el primer mensaje, cuando todavía no sabes su nombre.')+
+    inp('emojis','Tus emojis de siempre','Pega 1 a 3, ej. 😊🙌. Salen en el saludo, en el gracias y en algunos seguimientos, no en todos.')+
+    inp('cierre','¿Con qué cierras?','Ej. "Bonito día", "Quedo al pendiente", "Saludos". Va al final del saludo y del gracias.')+
+    '<div class="label">Así te vas a escuchar</div><div class="msg" id="vozPrev">'+hl(rapidas()[0].m)+'</div>'+
+    '<div class="tip">¿Quieres cambiar un mensaje completo? En <b>Respuestas</b> cada uno tiene <b>Escribirlo a mi manera</b>.</div></section>';
   h+='<section class="card" id="respaldo"><h2>Respaldo</h2><p class="sub">Tus clientes y tu ficha viven solo en este celular. Haz un respaldo cada semana y guárdalo donde no se pierda.</p>'+
     (S.respaldo?'<div class="meta">Último respaldo: <b>'+hace(S.respaldo)+'</b></div>':'')+
     '<div class="btns"><button type="button" class="main" id="btnDescargar">Descargar respaldo</button><button type="button" id="btnCopiarResp">Copiar respaldo</button></div>'+
@@ -617,6 +689,11 @@ document.getElementById('demo').addEventListener('click',function(e){
 view.addEventListener('click',function(e){
   var t=e.target;
   var cp=t.closest('[data-copy]');if(cp){copyFrom(cp.dataset.copy,cp);return}
+  var ed=t.closest('[data-edit]');if(ed){editA=ed.dataset.edit;render();var ta0=document.getElementById('ed-'+editA);if(ta0){ta0.focus();ta0.scrollIntoView({block:'center'})}return}
+  if(t.closest('[data-edcancel]')){editA=null;render();return}
+  var es=t.closest('[data-edsave]');if(es){var v=(document.getElementById('ed-'+es.dataset.edsave)||{}).value||'';if(!v.trim()){toast('Está vacío. Escribe tu versión o toca Cancelar.');return}
+    S.ficha.propios=S.ficha.propios||{};S.ficha.propios[es.dataset.edsave]=v.trim();editA=null;save();render();toast('Guardado. Así va a salir siempre /'+es.dataset.edsave+'.');return}
+  var er=t.closest('[data-edreset]');if(er){if(S.ficha.propios)delete S.ficha.propios[er.dataset.edreset];editA=null;save();render();toast('Regresó al mensaje original.');return}
   var ch=t.closest('[data-sit]');if(ch){sit=sit===ch.dataset.sit?null:ch.dataset.sit;render();return}
   if(t.id==='btnAdd'){openAdd=true;render();return}
   if(t.id==='btnCancel'){openAdd=false;render();return}
@@ -639,7 +716,7 @@ view.addEventListener('click',function(e){
     return;
   }
   if(t.id==='btnRestaurar'&&restaurando){
-    S=restaurando.datos;S.ejemplo=false;S.tab='hoy';if(!S.ficha.giro)S.ficha.giro='producto';restaurando=null;save();render();scrollTo(0,0);toast('Respaldo recuperado.');return;
+    S=restaurando.datos;S.ejemplo=false;S.tab='hoy';migra(S.ficha);restaurando=null;save();render();scrollTo(0,0);toast('Respaldo recuperado.');return;
   }
   var wa=t.closest('[data-wa]');
   if(wa){
@@ -661,7 +738,7 @@ view.addEventListener('click',function(e){
   }else if(act==='revive'){
     c.estado='pend';c.segs=0;c.last=today();toast(c.nombre+' regresó a Pendientes.');
   }else if(act==='gracias'){
-    var m=rapidas().filter(function(x){return x.a==='gracias'})[0].m.replace(NOM,c.nombre);
+    var m=rapidas().filter(function(x){return x.a==='gracias'})[0].m.split(NOM).join(c.nombre).split(PED).join(c.pedido);
     try{navigator.clipboard.writeText(m).then(function(){toast('Copiado. Pégalo en su chat y cambia lo que está entre [ ].')},function(){toast(m)})}catch(err){toast(m)}
     return;
   }else if(act==='borrar'){
@@ -672,7 +749,7 @@ view.addEventListener('click',function(e){
 });
 view.addEventListener('input',function(e){
   var t=e.target;
-  if(t.dataset.f){S.ficha[t.dataset.f]=t.value;save();document.getElementById('hdrNeg').textContent=S.ficha.negocio||'Tu negocio';return}
+  if(t.dataset.f){S.ficha[t.dataset.f]=t.value;save();document.getElementById('hdrNeg').textContent=S.ficha.negocio||'Tu negocio';var vp=document.getElementById('vozPrev');if(vp)vp.innerHTML=hl(rapidas()[0].m);return}
   if(t.id==='rTxt'){if(t.value.trim())infoRestaurar(leerRespaldo(t.value));else{restaurando=null;document.getElementById('rInfo').innerHTML=''}return}
   if(t.dataset.msg){
     var c=byId(t.dataset.msg),l=view.querySelector('[data-wa="'+t.dataset.msg+'"]'),p=document.getElementById('p-'+t.dataset.msg);
@@ -682,7 +759,12 @@ view.addEventListener('input',function(e){
 });
 view.addEventListener('change',function(e){
   var t=e.target;
-  if(t.name==='tipo'||t.name==='trato'||t.name==='giro'){S.ficha[t.name]=t.value;save();render()}
+  if(t.name==='tipo'||t.name==='trato'){S.ficha[t.name]=t.value;save();render()}
+  if(t.name==='giros'){
+    var sel=[].slice.call(view.querySelectorAll('input[name="giros"]:checked')).map(function(x){return x.value});
+    if(!sel.length){t.checked=true;toast('Deja marcada al menos una.');return}
+    S.ficha.giros=sel;save();render();
+  }
   if(t.id==='rFile'&&t.files&&t.files[0]){
     var rd=new FileReader();rd.onload=function(){infoRestaurar(leerRespaldo(String(rd.result)))};rd.onerror=function(){infoRestaurar(null)};rd.readAsText(t.files[0]);
   }
